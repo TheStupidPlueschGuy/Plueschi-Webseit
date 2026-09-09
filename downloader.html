@@ -5,120 +5,245 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plüsch Downloader — Videos & Musik von über 1.800 Seiten laden</title>
 <meta name="description" content="Kostenloser Windows-Downloader für YouTube, TikTok, Twitch und über 1.800 weitere Seiten. MP4 oder MP3, in einem Klick.">
-<link rel="stylesheet" href="assets/style.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#050508; --surface:#15152a; --border-soft:rgba(255,255,255,0.08);
+  --text:#eeeeff; --text-dim:rgba(255,255,255,0.56); --text-faint:rgba(255,255,255,0.30);
+  --c1:#7c3aed; --c2:#db2777; --c3:#22d3ee;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;cursor:none;}
+a{color:inherit;text-decoration:none;}
+.mono{font-family:'JetBrains Mono',monospace;}
+::selection{background:var(--c1);color:#fff;}
+:focus-visible{outline:2px solid var(--c3);outline-offset:3px;}
+::-webkit-scrollbar{height:8px;width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--c1),var(--c2));border-radius:99px;}
+html{scrollbar-color:var(--c1) var(--bg);}
+@media (hover:none){body{cursor:auto;}}
+
+#cursorRing{position:fixed;width:26px;height:26px;border:1.5px solid var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s,background .2s;mix-blend-mode:screen;}
+#cursorDot{position:fixed;width:5px;height:5px;background:var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px 3px var(--c3);}
+#cursorRing.active{width:48px;height:48px;border-color:var(--c2);background:rgba(219,39,119,0.08);}
+@media (hover:none){#cursorRing,#cursorDot{display:none;}}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeInUp .7s cubic-bezier(.2,.7,.2,1) both;}
+
+.container{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+.promo{background:linear-gradient(90deg,var(--c1),var(--c2));color:#fff;font-size:13px;font-weight:700;text-align:center;padding:10px 44px 10px 16px;position:relative;}
+.promo a{text-decoration:underline;margin-left:6px;}
+.promo-close{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:15px;cursor:pointer;opacity:.85;}
+.promo-close:hover{opacity:1;}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(5,5,8,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+.nav-inner{max-width:1280px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px;}
+.spark{display:inline-block;animation:wiggle 3.5s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:rotate(0) scale(1);}50%{transform:rotate(-12deg) scale(1.15);}}
+.nav-mid{display:flex;align-items:center;gap:30px;font-size:13.5px;font-weight:600;color:var(--text-dim);}
+.nav-mid > div{position:relative;}
+.nav-drop-btn{display:flex;align-items:center;gap:5px;cursor:pointer;padding:6px 0;}
+.nav-drop-btn:hover, .nav-mid a:hover{color:var(--text);}
+.nav-mid a.active{color:var(--c3);}
+.chev{font-size:9px;transition:transform .2s;}
+.nav-drop-btn:hover .chev{transform:rotate(180deg);}
+.dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(6px);min-width:200px;background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:8px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.nav-mid > div:hover .dropdown{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-dim);}
+.dropdown a:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.nav-icons{display:flex;align-items:center;gap:18px;}
+.icon-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-dim);position:relative;transition:background .2s,color .2s;}
+.icon-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.cart-badge{position:absolute;top:-2px;right:-2px;background:var(--c2);color:#fff;font-size:9px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+@media (max-width:900px){.nav-mid{display:none;}}
+
+.hero{position:relative;background:radial-gradient(120% 100% at 15% 0%, rgba(124,58,237,0.16), transparent 55%), radial-gradient(100% 90% at 90% 100%, rgba(219,39,119,0.14), transparent 55%), #08080e;overflow:hidden;}
+.hero-grid{max-width:1160px;margin:0 auto;padding:80px 24px 64px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--c3);margin:0 0 14px;}
+.display{font-size:clamp(2.2rem,4.6vw,3.6rem);font-weight:900;line-height:1.06;letter-spacing:-.03em;margin:0;}
+.gradient-text{background:linear-gradient(100deg,var(--c1),var(--c2) 40%,var(--c3));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite;}
+@keyframes shine{to{background-position:200% center;}}
+.lede{font-size:15.5px;color:var(--text-dim);max-width:46ch;margin:18px 0 0;}
+.hero-cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:10px;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;}
+.btn-solid{background:#fff;color:#08080d;}
+.btn-solid:hover{background:var(--c3);}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-soft);}
+.btn-ghost:hover{border-color:var(--c3);background:rgba(34,211,238,.06);}
+.hero-note{font-size:11.5px;color:var(--text-faint);margin-top:14px;font-family:'JetBrains Mono',monospace;}
+
+.showcase{position:relative;}
+.showcase-badge{position:absolute;top:-14px;right:24px;z-index:5;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;font-size:11px;font-weight:800;padding:7px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(124,58,237,.4);}
+.demo{background:rgba(21,21,42,.7);backdrop-filter:blur(20px);border:1px solid var(--border-soft);border-radius:22px;padding:28px;box-shadow:0 40px 100px rgba(124,58,237,.2);position:relative;overflow:hidden;}
+.demo::before{content:'';position:absolute;inset:0;border-radius:22px;padding:1px;background:conic-gradient(from var(--ang,0deg),var(--c1),var(--c3),var(--c2),var(--c1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);pointer-events:none;-webkit-mask-composite:xor;mask-composite:exclude;animation:rotate-border 4s linear infinite;opacity:.7;}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes rotate-border{to{--ang:360deg;}}
+.demo-dots{display:flex;gap:6px;margin-bottom:16px;}
+.demo-dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);}
+.demo-input{background:var(--bg);border:1px solid var(--border-soft);border-radius:10px;padding:13px 15px;font-size:13px;color:var(--c3);font-family:'JetBrains Mono',monospace;margin-bottom:16px;}
+.demo-row{display:flex;gap:10px;margin-bottom:16px;}
+.demo-pill{flex:1;text-align:center;padding:10px;border-radius:9px;font-weight:700;font-size:12.5px;}
+.demo-pill.on{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;}
+.demo-pill.off{background:rgba(255,255,255,.05);color:var(--text-faint);border:1px solid var(--border-soft);}
+.demo-btn{text-align:center;padding:11px;border-radius:9px;font-weight:800;font-size:12px;text-transform:uppercase;background:rgba(255,255,255,.05);color:var(--text-faint);border:1px solid var(--border-soft);}
+
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;padding:64px 24px;}}
+
+.marquee-wrap{border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:22px 0;overflow:hidden;background:#08080e;}
+.marquee{display:flex;gap:48px;white-space:nowrap;font-weight:700;color:var(--text-dim);font-size:14.5px;width:max-content;animation:scroll 26s linear infinite;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+.features{padding:96px 0;}
+.features h2{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:900;letter-spacing:-.02em;margin:0 0 48px;max-width:20ch;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);border-radius:20px;overflow:hidden;}
+.feat-card{background:var(--surface);padding:28px;transition:background .2s;}
+.feat-card:hover{background:#1a1a35;}
+.feat-icon{font-size:26px;margin-bottom:12px;}
+.feat-card h3{margin:0 0 8px;font-size:15.5px;font-weight:800;}
+.feat-card p{margin:0;font-size:13px;color:var(--text-dim);line-height:1.6;}
+
+.cta-band{padding-bottom:100px;}
+.cta-card{text-align:center;padding:56px 32px;border-radius:22px;background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(219,39,119,.12));border:1px solid rgba(124,58,237,.3);}
+.cta-card h2{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:900;margin:0 0 12px;}
+.cta-card p{font-size:14px;color:var(--text-dim);margin:0 0 26px;}
+
+.site-footer{border-top:1px solid var(--border-soft);padding:36px 0 28px;background:#08080e;}
+.footer-inner{max-width:1280px;margin:0 auto;padding:0 32px;}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-bottom:24px;}
+.footer-divider{height:1px;background:var(--border-soft);margin-bottom:18px;}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--text-dim);}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
+
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.03;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
 </head>
 <body>
 
+<div id="cursorRing"></div>
+<div id="cursorDot"></div>
+<div class="grain"></div>
+
+<div class="promo mono" id="promoBar">
+  🎁 Unser Geschenk an dich: Alle Projekte kostenlos <a href="index.html#explore">Jetzt entdecken</a>
+  <button class="promo-close" onclick="document.getElementById('promoBar').style.display='none'" aria-label="Schließen">✕</button>
+</div>
+
 <nav class="nav">
   <div class="nav-inner">
-    <div class="nav-logo"><a href="index.html" style="display:flex;align-items:center;gap:10px;"><span class="mark">🦊</span> Plüsch Downloader</a></div>
-    <div class="nav-links">
-      <a href="index.html">← Alle Projekte</a>
-      <a href="#features">Features</a>
-      <a href="sites.html">Unterstützte Seiten</a>
-      <a href="pricing.html">Preise</a>
-      <a href="whatsnew.html">Changelog</a>
+    <div class="nav-logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></a></div>
+    <div class="nav-mid">
+      <div>
+        <div class="nav-drop-btn">Projekte <span class="chev">▾</span></div>
+        <div class="dropdown">
+          <a href="downloader.html">🦊 Plüsch Downloader</a>
+          <a href="index.html#explore">🛒 Plüsch Shop</a>
+          <a href="index.html#explore">🧪 In Entwicklung</a>
+        </div>
+      </div>
+      <a href="downloader.html" class="active">Downloader</a>
+      <a href="pricing.html">Abonnement</a>
+      <a href="support.html">Support</a>
+      <a href="impressum.html">Impressum</a>
     </div>
-    <a class="nav-cta" href="login.html">Anmelden</a>
+    <div class="nav-icons">
+      <a class="icon-btn" href="support.html" title="Support">🔍</a>
+      <a class="icon-btn" href="login.html" title="Anmelden">👤</a>
+      <a class="icon-btn" href="index.html#explore" title="Shop (bald)">🛒<span class="cart-badge">0</span></a>
+    </div>
   </div>
 </nav>
 
-<header class="container" style="display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:88px;">
-  <div>
-    <p class="eyebrow">🦊 Kostenlos · Windows · Kein Konto nötig zum Downloaden</p>
-    <h1 class="display">Ein Link rein.<br>Dein <span class="gradient-text">Video</span> raus.</h1>
-    <p class="lede">Plüsch Downloader lädt Videos und Musik von YouTube, TikTok, Twitch und über 1.800 weiteren Seiten — als MP4 oder MP3, in Originalqualität, ohne Wasserzeichen.</p>
-    <div style="display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;">
-      <a class="btn btn-primary" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest" id="downloadBtn">⬇️ Kostenlos herunterladen</a>
-      <a class="btn btn-ghost" href="https://github.com/TheStupidPlueschGuy/plueschi-releases">Auf GitHub ansehen</a>
+<header class="hero">
+  <div class="hero-grid">
+    <div class="fade-in">
+      <p class="eyebrow">🦊 Kostenlos · Windows · Kein Konto nötig zum Downloaden</p>
+      <h1 class="display">Ein Link rein.<br>Dein <span class="gradient-text">Video</span> raus.</h1>
+      <p class="lede">Plüsch Downloader lädt Videos und Musik von YouTube, TikTok, Twitch und über 1.800 weiteren Seiten — als MP4 oder MP3, in Originalqualität, ohne Wasserzeichen.</p>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest">⬇️ Kostenlos herunterladen</a>
+        <a class="btn btn-ghost" href="https://github.com/TheStupidPlueschGuy/plueschi-releases">Auf GitHub ansehen</a>
+      </div>
+      <p class="hero-note">WINDOWS 10/11 · AKTUELLE VERSION WIRD AUTOMATISCH GELADEN</p>
     </div>
-    <p style="font-size:12px;color:var(--text-faint);margin-top:14px;">Windows 10/11 · aktuelle Version wird automatisch geladen</p>
-  </div>
 
-  <!-- Nachbau der echten Download-Karte aus der App - das Produkt IST diese Interaktion -->
-  <div class="card" style="box-shadow:0 30px 80px rgba(124,58,237,0.15);">
-    <div style="font-size:12px;font-weight:700;color:var(--text-faint);letter-spacing:0.3px;margin-bottom:10px;">URL EINFÜGEN</div>
-    <div style="background:#0a0a0f;border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text-dim);margin-bottom:16px;">
-      https://youtube.com/watch?v=...
+    <div class="showcase fade-in" style="animation-delay:.15s;">
+      <div class="showcase-badge">🦊 FLAGGSCHIFF</div>
+      <div class="demo">
+        <div class="demo-dots"><span></span><span></span><span></span></div>
+        <div class="demo-input">youtube.com/watch?v=...</div>
+        <div class="demo-row">
+          <div class="demo-pill on">🎬 MP4</div>
+          <div class="demo-pill off">🎵 MP3</div>
+        </div>
+        <div class="demo-btn">⬇️ Herunterladen</div>
+      </div>
     </div>
-    <div style="display:flex;gap:10px;margin-bottom:16px;">
-      <div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:linear-gradient(135deg,var(--c1),var(--c2));font-weight:700;font-size:13px;">🎬 MP4</div>
-      <div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-weight:700;font-size:13px;color:var(--text-dim);">🎵 MP3</div>
-    </div>
-    <div style="text-align:center;padding:13px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-weight:700;font-size:13px;color:var(--text-dim);">⬇️ Herunterladen</div>
   </div>
 </header>
 
-<!-- Marquee: unterstützte Plattformen als Beweis der Reichweite -->
-<div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 0;overflow:hidden;background:var(--surface-2);">
-  <div class="marquee" style="display:flex;gap:48px;white-space:nowrap;font-weight:700;color:var(--text-dim);font-size:15px;width:max-content;animation:scroll 28s linear infinite;">
+<div class="marquee-wrap">
+  <div class="marquee">
     <span>▶️ YouTube</span><span>🎵 TikTok</span><span>🎮 Twitch</span><span>📸 Instagram</span><span>🐦 X / Twitter</span><span>+ 1.800 weitere Seiten</span>
     <span>▶️ YouTube</span><span>🎵 TikTok</span><span>🎮 Twitch</span><span>📸 Instagram</span><span>🐦 X / Twitter</span><span>+ 1.800 weitere Seiten</span>
   </div>
 </div>
-<style>@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}</style>
 
-<!-- Features - echte Copy aus der App-Tour wiederverwendet -->
-<section id="features" class="container" style="padding:96px 0;">
-  <p class="eyebrow">Was drin ist</p>
-  <h2 class="display" style="font-size:clamp(1.8rem,3.4vw,2.6rem);margin-bottom:56px;">Alles, was du zum Herunterladen brauchst — nichts, was du nicht brauchst.</h2>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
-    <div style="background:var(--surface);padding:28px;">
-      <div style="font-size:26px;margin-bottom:12px;">🎬</div>
-      <h3 style="margin:0 0 8px;font-size:16px;">MP4 & MP3</h3>
-      <p style="margin:0;font-size:13px;color:var(--text-dim);">Qualität wählbar von 480p bis zur besten verfügbaren Auflösung. Für Musik: sauberes MP3 ohne Videoballast.</p>
-    </div>
-    <div style="background:var(--surface);padding:28px;">
-      <div style="font-size:26px;margin-bottom:12px;">📋</div>
-      <h3 style="margin:0 0 8px;font-size:16px;">Warteschlange</h3>
-      <p style="margin:0;font-size:13px;color:var(--text-dim);">Mehrere URLs auf einmal? Alle zur Warteschlange hinzufügen und nacheinander abarbeiten lassen.</p>
-    </div>
-    <div style="background:var(--surface);padding:28px;">
-      <div style="font-size:26px;margin-bottom:12px;">🍪</div>
-      <h3 style="margin:0 0 8px;font-size:16px;">Private Videos</h3>
-      <p style="margin:0;font-size:13px;color:var(--text-dim);">Cookie-Import für altersbeschränkte oder private Inhalte, direkt aus deinem Browser.</p>
-    </div>
-    <div style="background:var(--surface);padding:28px;">
-      <div style="font-size:26px;margin-bottom:12px;">🗂️</div>
-      <h3 style="margin:0 0 8px;font-size:16px;">Verlauf</h3>
-      <p style="margin:0;font-size:13px;color:var(--text-dim);">Jeder Download wird gespeichert — mit einem Klick erneut herunterladen, falls mal was schiefging.</p>
-    </div>
-    <div style="background:var(--surface);padding:28px;">
-      <div style="font-size:26px;margin-bottom:12px;">🎵</div>
-      <h3 style="margin:0 0 8px;font-size:16px;">Track Finder</h3>
-      <p style="margin:0;font-size:13px;color:var(--text-dim);">Liste von Songnamen eingeben, Plüschi findet automatisch die passenden YouTube-Music-Links.</p>
-    </div>
-    <div style="background:var(--surface);padding:28px;">
-      <div style="font-size:26px;margin-bottom:12px;">🔐</div>
-      <h3 style="margin:0 0 8px;font-size:16px;">Konto & 2FA</h3>
-      <p style="margin:0;font-size:13px;color:var(--text-dim);">Login auf bis zu 2 Geräten, optional mit Zwei-Faktor-Schutz über Authy oder Google Authenticator.</p>
-    </div>
+<section class="features container">
+  <h2>Alles, was du zum Herunterladen brauchst — nichts, was du nicht brauchst.</h2>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🎬</div><h3>MP4 & MP3</h3><p>Qualität wählbar von 480p bis zur besten verfügbaren Auflösung. Für Musik: sauberes MP3 ohne Videoballast.</p></div>
+    <div class="feat-card"><div class="feat-icon">📋</div><h3>Warteschlange</h3><p>Mehrere URLs auf einmal? Alle zur Warteschlange hinzufügen und nacheinander abarbeiten lassen.</p></div>
+    <div class="feat-card"><div class="feat-icon">🍪</div><h3>Private Videos</h3><p>Cookie-Import für altersbeschränkte oder private Inhalte, direkt aus deinem Browser.</p></div>
+    <div class="feat-card"><div class="feat-icon">🗂️</div><h3>Verlauf</h3><p>Jeder Download wird gespeichert — mit einem Klick erneut herunterladen, falls mal was schiefging.</p></div>
+    <div class="feat-card"><div class="feat-icon">🎵</div><h3>Track Finder</h3><p>Liste von Songnamen eingeben, Plüschi findet automatisch die passenden YouTube-Music-Links.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔐</div><h3>Konto & 2FA</h3><p>Login auf bis zu 2 Geräten, optional mit Zwei-Faktor-Schutz über Authy oder Google Authenticator.</p></div>
   </div>
 </section>
 
-<!-- CTA-Band -->
-<section class="container" style="padding-bottom:96px;">
-  <div class="card" style="text-align:center;padding:56px 32px;background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(219,39,119,0.12));border-color:rgba(124,58,237,0.3);">
-    <h2 class="display" style="font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:14px;">Bereit zum ersten Download?</h2>
-    <p class="lede" style="margin:0 auto 28px;text-align:center;">Kostenlos, keine Registrierung nötig zum Loslegen.</p>
-    <a class="btn btn-primary" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest">⬇️ Jetzt herunterladen</a>
+<section class="cta-band container">
+  <div class="cta-card">
+    <h2>Bereit zum ersten Download?</h2>
+    <p>Kostenlos, keine Registrierung nötig zum Loslegen.</p>
+    <a class="btn btn-solid" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest">⬇️ Jetzt herunterladen</a>
   </div>
 </section>
 
 <footer class="site-footer">
-  <div class="container">
-    <div class="footer-links">
-      <a href="sites.html">Unterstützte Seiten</a>
-      <a href="pricing.html">Preise</a>
-      <a href="whatsnew.html">Changelog</a>
-      <a href="support.html">Support</a>
-      <a href="impressum.html">Impressum</a>
-      <a href="https://github.com/TheStupidPlueschGuy/plueschi-releases">GitHub</a>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="nav-logo"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></div>
+      <div class="footer-links">
+        <a href="downloader.html">Plüsch Downloader</a>
+        <a href="pricing.html">Abonnement</a>
+        <a href="support.html">Support</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="https://github.com/TheStupidPlueschGuy">GitHub</a>
+      </div>
     </div>
-    <div class="footer-copy">© 2026 TheStupidPlueschGuy · Nicht verbunden mit YouTube, TikTok oder anderen genannten Plattformen.</div>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">© 2026 TheStupidPlueschGuy · Plüsch Studios ist eine Eigenmarke, kein eingetragenes Unternehmen (sofern nicht anders im Impressum angegeben).</div>
   </div>
 </footer>
+
+<script>
+if (window.matchMedia('(hover: hover)').matches) {
+  const ring = document.getElementById('cursorRing'), dot = document.getElementById('cursorDot');
+  let rx=0, ry=0, mx=0, my=0;
+  window.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('active'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('active'));
+  });
+}
+</script>
 
 </body>
 </html>
