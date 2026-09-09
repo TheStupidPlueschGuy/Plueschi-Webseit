@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abonnement — Plüsch Studios©</title>
+<meta name="description" content="Wähle deinen Plüsch Studios Tarif — Free, Standard, Premium oder Ultimate.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#050508; --surface:#15152a; --border-soft:rgba(255,255,255,0.08);
+  --text:#eeeeff; --text-dim:rgba(255,255,255,0.56); --text-faint:rgba(255,255,255,0.30);
+  --c1:#7c3aed; --c2:#db2777; --c3:#22d3ee;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;cursor:none;}
+a{color:inherit;text-decoration:none;}
+.mono{font-family:'JetBrains Mono',monospace;}
+::selection{background:var(--c1);color:#fff;}
+:focus-visible{outline:2px solid var(--c3);outline-offset:3px;}
+::-webkit-scrollbar{height:8px;width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--c1),var(--c2));border-radius:99px;}
+html{scrollbar-color:var(--c1) var(--bg);}
+@media (hover:none){body{cursor:auto;}}
+
+#cursorRing{position:fixed;width:26px;height:26px;border:1.5px solid var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s,background .2s;mix-blend-mode:screen;}
+#cursorDot{position:fixed;width:5px;height:5px;background:var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px 3px var(--c3);}
+#cursorRing.active{width:48px;height:48px;border-color:var(--c2);background:rgba(219,39,119,0.08);}
+@media (hover:none){#cursorRing,#cursorDot{display:none;}}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeInUp .7s cubic-bezier(.2,.7,.2,1) both;}
+
+.promo{background:linear-gradient(90deg,var(--c1),var(--c2));color:#fff;font-size:13px;font-weight:700;text-align:center;padding:10px 44px 10px 16px;position:relative;}
+.promo a{text-decoration:underline;margin-left:6px;}
+.promo-close{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:15px;cursor:pointer;opacity:.85;}
+.promo-close:hover{opacity:1;}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(5,5,8,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+.nav-inner{max-width:1280px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px;}
+.spark{display:inline-block;animation:wiggle 3.5s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:rotate(0) scale(1);}50%{transform:rotate(-12deg) scale(1.15);}}
+.nav-mid{display:flex;align-items:center;gap:30px;font-size:13.5px;font-weight:600;color:var(--text-dim);}
+.nav-mid > div{position:relative;}
+.nav-drop-btn{display:flex;align-items:center;gap:5px;cursor:pointer;padding:6px 0;}
+.nav-drop-btn:hover, .nav-mid a:hover{color:var(--text);}
+.nav-mid a.active{color:var(--c3);}
+.chev{font-size:9px;transition:transform .2s;}
+.nav-drop-btn:hover .chev{transform:rotate(180deg);}
+.dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(6px);min-width:200px;background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:8px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.nav-mid > div:hover .dropdown{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-dim);}
+.dropdown a:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.nav-icons{display:flex;align-items:center;gap:18px;}
+.icon-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-dim);position:relative;transition:background .2s,color .2s;}
+.icon-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.cart-badge{position:absolute;top:-2px;right:-2px;background:var(--c2);color:#fff;font-size:9px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+@media (max-width:900px){.nav-mid{display:none;}}
+
+.page-hero{position:relative;background:radial-gradient(120% 100% at 15% 0%, rgba(124,58,237,0.16), transparent 55%), radial-gradient(100% 90% at 90% 100%, rgba(219,39,119,0.14), transparent 55%), #08080e;padding:72px 32px 56px;text-align:center;}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--c3);margin:0 0 14px;}
+.page-title{font-size:clamp(2rem,4.2vw,3.2rem);font-weight:900;letter-spacing:-.03em;margin:0;}
+.page-sub{font-size:15.5px;color:var(--text-dim);max-width:52ch;margin:16px auto 0;}
+.placeholder-note{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:#fbbf24;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);padding:7px 16px;border-radius:999px;margin-top:22px;}
+
+.pricing-wrap{max-width:1280px;margin:0 auto;padding:64px 32px 96px;}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:stretch;}
+.tier{background:var(--surface);border:1px solid var(--border-soft);border-radius:20px;padding:32px 26px;display:flex;flex-direction:column;position:relative;transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s;}
+.tier:hover{transform:translateY(-6px);border-color:rgba(124,58,237,.4);}
+.tier.popular{border-color:rgba(124,58,237,.5);background:linear-gradient(180deg,rgba(124,58,237,.08),var(--surface) 40%);}
+.tier.popular::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;background:conic-gradient(from var(--ang,0deg),var(--c1),var(--c3),var(--c2),var(--c1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);pointer-events:none;-webkit-mask-composite:xor;mask-composite:exclude;animation:rotate-border 5s linear infinite;opacity:.8;}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes rotate-border{to{--ang:360deg;}}
+.tier-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:6px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(124,58,237,.4);white-space:nowrap;z-index:2;}
+.tier-icon{font-size:30px;margin-bottom:12px;}
+.tier-name{font-size:19px;font-weight:800;margin:0 0 6px;}
+.tier-price{font-size:34px;font-weight:900;letter-spacing:-.02em;margin:6px 0 2px;}
+.tier-price span{font-size:13px;font-weight:600;color:var(--text-faint);}
+.tier-devices{font-size:12px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;margin-bottom:22px;}
+.tier-features{list-style:none;padding:0;margin:0 0 26px;flex:1;display:flex;flex-direction:column;gap:11px;}
+.tier-features li{font-size:13px;color:var(--text-dim);display:flex;align-items:flex-start;gap:9px;line-height:1.45;}
+.tier-features li.disabled{color:var(--text-faint);}
+.tier-features .check{color:#4ade80;flex-shrink:0;font-weight:800;}
+.tier-features .cross{color:var(--text-faint);flex-shrink:0;}
+.tier-btn{display:block;text-align:center;padding:13px;border-radius:10px;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--border-soft);color:var(--text);transition:all .25s;}
+.tier-btn:hover{border-color:var(--c3);background:rgba(34,211,238,.06);}
+.tier-btn.solid{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;border:none;box-shadow:0 8px 24px rgba(124,58,237,.35);}
+.tier-btn.solid:hover{filter:brightness(1.08);}
+
+@media (max-width:1000px){.pricing-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.pricing-grid{grid-template-columns:1fr;}}
+
+.pricing-note{max-width:720px;margin:0 auto;text-align:center;padding:0 32px 80px;}
+.pricing-note p{font-size:13px;color:var(--text-faint);line-height:1.7;}
+.pricing-note a{color:var(--c3);text-decoration:underline;}
+
+.chat-fab{position:fixed;bottom:26px;right:26px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 10px 30px rgba(124,58,237,.5);z-index:80;transition:transform .2s;}
+.chat-fab:hover{transform:scale(1.08);}
+
+.site-footer{border-top:1px solid var(--border-soft);padding:36px 0 28px;background:#08080e;}
+.footer-inner{max-width:1280px;margin:0 auto;padding:0 32px;}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-bottom:24px;}
+.footer-divider{height:1px;background:var(--border-soft);margin-bottom:18px;}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--text-dim);}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
+
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.03;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
+</head>
+<body>
+
+<div id="cursorRing"></div>
+<div id="cursorDot"></div>
+<div class="grain"></div>
+
+<div class="promo mono" id="promoBar">
+  🎁 Unser Geschenk an dich: Alle Projekte kostenlos <a href="downloader.html">Jetzt entdecken</a>
+  <button class="promo-close" onclick="document.getElementById('promoBar').style.display='none'" aria-label="Schließen">✕</button>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></a></div>
+    <div class="nav-mid">
+      <div>
+        <div class="nav-drop-btn">Projekte <span class="chev">▾</span></div>
+        <div class="dropdown">
+          <a href="downloader.html">🦊 Plüsch Downloader</a>
+          <a href="index.html#explore">🛒 Plüsch Shop</a>
+          <a href="index.html#explore">🧪 In Entwicklung</a>
+        </div>
+      </div>
+      <a href="downloader.html">Downloader</a>
+      <a href="index.html#explore">Shop</a>
+      <a href="pricing.html" class="active">Abonnement</a>
+      <a href="support.html">Support</a>
+      <a href="impressum.html">Impressum</a>
+    </div>
+    <div class="nav-icons">
+      <a class="icon-btn" href="support.html" title="Support">🔍</a>
+      <a class="icon-btn" href="login.html" title="Anmelden">👤</a>
+      <a class="icon-btn" href="index.html#explore" title="Shop (bald)">🛒<span class="cart-badge">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <p class="eyebrow fade-in">Abonnement</p>
+  <h1 class="page-title fade-in" style="animation-delay:.05s;">Wähle deinen Tarif</h1>
+  <p class="page-sub fade-in" style="animation-delay:.1s;">Ein Konto, vier Stufen — von kostenlos bis Ultimate. Upgrade oder Downgrade jederzeit möglich.</p>
+  <div class="placeholder-note fade-in" style="animation-delay:.15s;">⚠️ Platzhalter-Preise & Features — werden noch final festgelegt</div>
+</header>
+
+<section class="pricing-wrap">
+  <div class="pricing-grid">
+
+    <div class="tier fade-in" style="animation-delay:.05s;">
+      <div class="tier-icon">🦊</div>
+      <h3 class="tier-name">Free</h3>
+      <div class="tier-price">0€<span> / Monat</span></div>
+      <div class="tier-devices">◈ 2 GERÄTE</div>
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Unbegrenzte Downloads (MP4/MP3)</li>
+        <li><span class="check">✓</span> Warteschlange & Verlauf</li>
+        <li><span class="check">✓</span> 2FA inklusive</li>
+        <li><span class="check">✓</span> Community-Support</li>
+        <li class="disabled"><span class="cross">–</span> Priorisierte Downloads</li>
+      </ul>
+      <a class="tier-btn" href="downloader.html">Kostenlos starten</a>
+    </div>
+
+    <div class="tier fade-in" style="animation-delay:.1s;">
+      <div class="tier-icon">⭐</div>
+      <h3 class="tier-name">Standard</h3>
+      <div class="tier-price">2,99€<span> / Monat</span></div>
+      <div class="tier-devices">◈ 4 GERÄTE</div>
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Alles aus Free</li>
+        <li><span class="check">✓</span> Priorisierte Downloads</li>
+        <li><span class="check">✓</span> Track Finder inklusive</li>
+        <li><span class="check">✓</span> E-Mail-Support</li>
+      </ul>
+      <a class="tier-btn" href="https://ko-fi.com/plueschstudios" target="_blank" rel="noopener">Upgraden</a>
+    </div>
+
+    <div class="tier popular fade-in" style="animation-delay:.15s;">
+      <div class="tier-badge">✨ Beliebt</div>
+      <div class="tier-icon">💎</div>
+      <h3 class="tier-name">Premium</h3>
+      <div class="tier-price">5,99€<span> / Monat</span></div>
+      <div class="tier-devices">◈ 6 GERÄTE</div>
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Alles aus Standard</li>
+        <li><span class="check">✓</span> Prioritäts-Support</li>
+        <li><span class="check">✓</span> Frühzugriff auf neue Features</li>
+        <li><span class="check">✓</span> Keine Werbung (falls je vorhanden)</li>
+      </ul>
+      <a class="tier-btn solid" href="https://ko-fi.com/plueschstudios" target="_blank" rel="noopener">Upgraden</a>
+    </div>
+
+    <div class="tier fade-in" style="animation-delay:.2s;">
+      <div class="tier-icon">🚀</div>
+      <h3 class="tier-name">Ultimate</h3>
+      <div class="tier-price">9,99€<span> / Monat</span></div>
+      <div class="tier-devices">◈ UNBEGRENZTE GERÄTE</div>
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Alles aus Premium</li>
+        <li><span class="check">✓</span> Unbegrenzte Geräte</li>
+        <li><span class="check">✓</span> Persönlicher Support-Kontakt</li>
+        <li><span class="check">✓</span> Namentliche Erwähnung als Supporter</li>
+        <li><span class="check">✓</span> Stimme bei neuen Features</li>
+      </ul>
+      <a class="tier-btn" href="https://ko-fi.com/plueschstudios" target="_blank" rel="noopener">Upgraden</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="pricing-note">
+  <p>Zahlungen laufen über Ko-fi. Kündigung jederzeit möglich. Fragen zu den Tarifen? <a href="support.html">Schreib unserem Support-Bot</a>.</p>
+</div>
+
+<a class="chat-fab" href="support.html" title="Support-Chat öffnen">💬</a>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="nav-logo"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></div>
+      <div class="footer-links">
+        <a href="downloader.html">Plüsch Downloader</a>
+        <a href="pricing.html">Abonnement</a>
+        <a href="support.html">Support</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="https://github.com/TheStupidPlueschGuy">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">© 2026 TheStupidPlueschGuy · Plüsch Studios ist eine Eigenmarke, kein eingetragenes Unternehmen (sofern nicht anders im Impressum angegeben).</div>
+  </div>
+</footer>
+
+<script>
+if (window.matchMedia('(hover: hover)').matches) {
+  const ring = document.getElementById('cursorRing'), dot = document.getElementById('cursorDot');
+  let rx=0, ry=0, mx=0, my=0;
+  window.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  document.querySelectorAll('a, button, .tier').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('active'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('active'));
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plüsch Studios© — Projekte & Tools</title>
+<meta name="description" content="Plüsch Studios: Downloader, Tools und mehr — alles an einem Ort.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#050508; --surface:#15152a; --border-soft:rgba(255,255,255,0.08);
+  --text:#eeeeff; --text-dim:rgba(255,255,255,0.56); --text-faint:rgba(255,255,255,0.30);
+  --c1:#7c3aed; --c2:#db2777; --c3:#22d3ee;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;cursor:none;}
+a{color:inherit;text-decoration:none;}
+.mono{font-family:'JetBrains Mono',monospace;}
+::selection{background:var(--c1);color:#fff;}
+:focus-visible{outline:2px solid var(--c3);outline-offset:3px;}
+::-webkit-scrollbar{height:8px;width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--c1),var(--c2));border-radius:99px;}
+html{scrollbar-color:var(--c1) var(--bg);}
+@media (hover:none){body{cursor:auto;}}
+
+#cursorRing{position:fixed;width:26px;height:26px;border:1.5px solid var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s,background .2s;mix-blend-mode:screen;}
+#cursorDot{position:fixed;width:5px;height:5px;background:var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px 3px var(--c3);}
+#cursorRing.active{width:48px;height:48px;border-color:var(--c2);background:rgba(219,39,119,0.08);}
+@media (hover:none){#cursorRing,#cursorDot{display:none;}}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeInUp .7s cubic-bezier(.2,.7,.2,1) both;}
+
+/* ══════════ 1. PROMO BAR ══════════ */
+.promo{background:linear-gradient(90deg,var(--c1),var(--c2));color:#fff;font-size:13px;font-weight:700;text-align:center;padding:10px 44px 10px 16px;position:relative;}
+.promo a{text-decoration:underline;margin-left:6px;}
+.promo-close{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:15px;cursor:pointer;opacity:.85;}
+.promo-close:hover{opacity:1;}
+
+/* ══════════ 2. NAV ══════════ */
+.nav{position:sticky;top:0;z-index:100;background:rgba(5,5,8,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+.nav-inner{max-width:1280px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px;}
+.spark{display:inline-block;animation:wiggle 3.5s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:rotate(0) scale(1);}50%{transform:rotate(-12deg) scale(1.15);}}
+.nav-mid{display:flex;align-items:center;gap:30px;font-size:13.5px;font-weight:600;color:var(--text-dim);}
+.nav-mid > div{position:relative;}
+.nav-drop-btn{display:flex;align-items:center;gap:5px;cursor:pointer;padding:6px 0;}
+.nav-drop-btn:hover, .nav-mid a:hover{color:var(--text);}
+.chev{font-size:9px;transition:transform .2s;}
+.nav-drop-btn:hover .chev{transform:rotate(180deg);}
+.dropdown{
+  position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(6px);min-width:200px;
+  background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:8px;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+.nav-mid > div:hover .dropdown{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-dim);}
+.dropdown a:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.nav-icons{display:flex;align-items:center;gap:18px;}
+.icon-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-dim);position:relative;transition:background .2s,color .2s;}
+.icon-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.cart-badge{position:absolute;top:-2px;right:-2px;background:var(--c2);color:#fff;font-size:9px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+@media (max-width:900px){.nav-mid{display:none;}}
+
+/* ══════════ 3. HERO ══════════ */
+.hero{position:relative;background:radial-gradient(120% 100% at 15% 15%, rgba(124,58,237,0.16), transparent 55%), radial-gradient(100% 90% at 90% 100%, rgba(219,39,119,0.14), transparent 55%), #08080e;overflow:hidden;}
+.hero-grid{max-width:1280px;margin:0 auto;padding:88px 32px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--c3);margin:0 0 14px;}
+.hero-title{font-size:clamp(2.2rem,4.6vw,3.6rem);font-weight:900;line-height:1.06;letter-spacing:-.03em;margin:0;}
+.hero-sub{font-size:15.5px;color:var(--text-dim);max-width:42ch;margin:18px 0 0;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border-radius:4px;font-weight:800;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;background:#fff;color:#08080d;margin-top:30px;transition:background .2s,transform .2s;}
+.btn:hover{background:var(--c3);transform:translateY(-2px);}
+
+.hero-visual{position:relative;}
+.showcase{background:rgba(21,21,42,.65);backdrop-filter:blur(20px);border:1px solid var(--border-soft);border-radius:22px;padding:30px;box-shadow:0 40px 100px rgba(124,58,237,.22);position:relative;overflow:hidden;}
+.showcase::before{content:'';position:absolute;inset:0;border-radius:22px;padding:1px;background:conic-gradient(from var(--ang,0deg),var(--c1),var(--c3),var(--c2),var(--c1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);pointer-events:none;-webkit-mask-composite:xor;mask-composite:exclude;animation:rotate-border 4s linear infinite;opacity:.7;}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes rotate-border{to{--ang:360deg;}}
+.demo-dots{display:flex;gap:6px;margin-bottom:16px;}
+.demo-dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);}
+.demo-input{background:var(--bg);border:1px solid var(--border-soft);border-radius:10px;padding:13px 15px;font-size:13.5px;color:var(--c3);font-family:'JetBrains Mono',monospace;margin-bottom:16px;min-height:19px;}
+.demo-typed::after{content:'▊';animation:blink .9s step-end infinite;color:var(--c3);}
+@keyframes blink{50%{opacity:0;}}
+.demo-row{display:flex;gap:10px;margin-bottom:16px;}
+.demo-pill{flex:1;text-align:center;padding:11px;border-radius:9px;font-weight:700;font-size:13px;background:rgba(255,255,255,.05);color:var(--text-faint);transition:all .4s;}
+.demo-pill.active{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 6px 20px rgba(124,58,237,.4);}
+.demo-btn2{text-align:center;padding:12px;border-radius:9px;font-weight:800;font-size:12.5px;text-transform:uppercase;background:rgba(255,255,255,.05);color:var(--text-faint);border:1px solid var(--border-soft);transition:all .3s;}
+.demo-btn2.pressed{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;}
+.demo-progress{height:4px;background:rgba(255,255,255,.06);border-radius:99px;margin-top:16px;overflow:hidden;}
+.demo-progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c3));border-radius:99px;box-shadow:0 0 10px var(--c3);}
+.demo-status{font-size:12px;color:var(--text-faint);margin-top:12px;text-align:center;opacity:0;transition:opacity .3s;height:16px;font-family:'JetBrains Mono',monospace;}
+.demo-status.show{opacity:1;color:#4ade80;}
+.showcase-badge{position:absolute;top:-14px;right:24px;z-index:5;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;font-size:11px;font-weight:800;padding:7px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(124,58,237,.4);}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;padding:56px 24px;}}
+
+/* ══════════ Stats-Streifen ══════════ */
+.stats-strip{border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);background:#08080e;}
+.stats-strip-inner{max-width:1280px;margin:0 auto;padding:28px 32px;display:flex;align-items:center;justify-content:center;gap:48px;}
+.stat-item{text-align:center;}
+.stat-num{font-size:26px;font-weight:800;letter-spacing:-.01em;background:linear-gradient(135deg,var(--c3),var(--c1));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.stat-label{font-size:11.5px;color:var(--text-faint);font-weight:600;margin-top:2px;}
+.stat-divider{width:1px;height:32px;background:var(--border-soft);}
+@media (max-width:600px){.stats-strip-inner{gap:24px;}.stat-divider{display:none;}}
+@media (max-width:480px){
+  .hero-visual{margin-right:8px;}
+  .showcase{padding:20px;}
+  .demo-dots{margin-bottom:10px;}
+  .demo-input{padding:10px 12px;margin-bottom:10px;min-height:16px;font-size:12.5px;}
+  .demo-row{margin-bottom:10px;gap:8px;}
+  .demo-pill{padding:9px;font-size:12px;}
+  .demo-btn2{padding:10px;font-size:11.5px;}
+  .demo-progress{margin-top:10px;}
+  .demo-status{margin-top:8px;height:14px;font-size:11px;}
+  .chat-fab{width:44px;height:44px;font-size:18px;bottom:16px;right:16px;}
+}
+
+/* ══════════ 4. ERKUNDE UNSERE PROJEKTE ══════════ */
+.explore{max-width:1280px;margin:0 auto;padding:80px 32px;text-align:center;}
+.explore h2{font-size:clamp(1.6rem,2.8vw,2.1rem);font-weight:800;margin:0 0 40px;letter-spacing:-.01em;}
+.circle-track{display:flex;align-items:flex-start;gap:14px;}
+.circle-scroll{display:flex;gap:32px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 10px;scrollbar-width:none;flex:1;}
+.circle-scroll::-webkit-scrollbar{display:none;}
+.circle-item{flex:0 0 auto;width:130px;scroll-snap-align:start;cursor:pointer;}
+.circle-ring{width:118px;height:118px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative;background:var(--surface);border:1.5px solid var(--border-soft);transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s;}
+.circle-item:hover .circle-ring{transform:translateY(-6px) scale(1.04);border-color:var(--c3);box-shadow:0 16px 40px rgba(34,211,238,.25);}
+.circle-ring.live{background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(219,39,119,.25));border-color:transparent;position:relative;}
+.circle-ring.live::before{content:'';position:absolute;inset:-3px;border-radius:50%;padding:2px;background:conic-gradient(from var(--ang2,0deg),var(--c1),var(--c3),var(--c2),var(--c1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);pointer-events:none;-webkit-mask-composite:xor;mask-composite:exclude;animation:rotate-border2 4s linear infinite;}
+@property --ang2{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes rotate-border2{to{--ang2:360deg;}}
+.dot-live{position:absolute;top:6px;right:10px;width:12px;height:12px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px 2px rgba(74,222,128,.7);animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
+.circle-item.placeholder .circle-ring{opacity:.5;filter:grayscale(1);}
+.circle-name{font-size:13.5px;font-weight:700;margin-bottom:3px;}
+.circle-sub{font-size:10px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.03em;}
+.explore-arrow{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border-soft);color:var(--text);cursor:pointer;font-size:16px;margin-top:38px;transition:border-color .2s,transform .2s;}
+.explore-arrow:hover{border-color:var(--c3);transform:scale(1.08);}
+
+/* ══════════ Floating Chat Button ══════════ */
+.chat-fab{position:fixed;bottom:26px;right:26px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 10px 30px rgba(124,58,237,.5);z-index:80;transition:transform .2s;}
+.chat-fab:hover{transform:scale(1.08);}
+
+/* ══════════ Footer ══════════ */
+.site-footer{border-top:1px solid var(--border-soft);padding:36px 0 28px;background:#08080e;}
+.footer-inner{max-width:1280px;margin:0 auto;padding:0 32px;}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-bottom:24px;}
+.footer-divider{height:1px;background:var(--border-soft);margin-bottom:18px;}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--text-dim);}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
+
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.03;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
+</head>
+<body>
+
+<div id="cursorRing"></div>
+<div id="cursorDot"></div>
+<div class="grain"></div>
+
+<!-- 1. PROMO BAR -->
+<div class="promo mono" id="promoBar">
+  🎁 Unser Geschenk an dich: Alle Projekte kostenlos <a href="downloader.html">Jetzt entdecken</a>
+  <button class="promo-close" onclick="document.getElementById('promoBar').style.display='none'" aria-label="Schließen">✕</button>
+</div>
+
+<!-- 2. NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></div>
+    <div class="nav-mid">
+      <div>
+        <div class="nav-drop-btn">Projekte <span class="chev">▾</span></div>
+        <div class="dropdown">
+          <a href="downloader.html">🦊 Plüsch Downloader</a>
+          <a href="#explore">🛒 Plüsch Shop</a>
+          <a href="#explore">🧪 In Entwicklung</a>
+        </div>
+      </div>
+      <a href="downloader.html">Downloader</a>
+      <a href="#explore">Shop</a>
+      <a href="pricing.html">Abonnement</a>
+      <a href="support.html">Support</a>
+      <a href="impressum.html">Impressum</a>
+    </div>
+    <div class="nav-icons">
+      <a class="icon-btn" href="support.html" title="Support">🔍</a>
+      <a class="icon-btn" href="login.html" title="Anmelden">👤</a>
+      <a class="icon-btn" href="#explore" title="Shop (bald)">🛒<span class="cart-badge">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- 3. HERO -->
+<header class="hero">
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow fade-in">Unser Geschenk an dich</p>
+      <h1 class="hero-title fade-in" style="animation-delay:.05s;">Alles von Plüsch<br>Studios© an einem Ort.</h1>
+      <p class="hero-sub fade-in" style="animation-delay:.1s;">Ein Konto für alle Plüsch-Projekte. Lade unsere neueste App herunter oder entdecke, was als Nächstes kommt.</p>
+      <a class="btn fade-in" href="downloader.html" style="animation-delay:.15s;">Jetzt entdecken</a>
+    </div>
+
+    <div class="hero-visual fade-in" style="animation-delay:.2s;">
+      <div class="showcase-badge">🦊 FLAGGSCHIFF</div>
+      <div class="showcase">
+        <div class="demo-dots"><span></span><span></span><span></span></div>
+        <div class="demo-input"><span class="demo-typed" id="demoTyped"></span></div>
+        <div class="demo-row">
+          <div class="demo-pill" id="pillMp4">🎬 MP4</div>
+          <div class="demo-pill" id="pillMp3">🎵 MP3</div>
+        </div>
+        <div class="demo-btn2" id="demoBtn">⬇ Herunterladen</div>
+        <div class="demo-progress"><div class="demo-progress-bar" id="demoProgress"></div></div>
+        <div class="demo-status" id="demoStatus">✓ Fertig in 2.1s</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Stats-Streifen -->
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div class="stat-item"><div class="stat-num" data-count="1800">0</div><div class="stat-label">Unterstützte Seiten</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><div class="stat-num" data-count="2">0</div><div class="stat-label">Geräte pro Konto</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><div class="stat-num" data-count="0">0</div><div class="stat-label">€ Kosten</div></div>
+  </div>
+</div>
+
+<!-- 4. ERKUNDE UNSERE PROJEKTE -->
+<section id="explore" class="explore">
+  <h2 class="fade-in">Erkunde unsere Projekte</h2>
+  <div class="circle-track">
+    <div class="circle-scroll" id="circleScroll">
+      <a href="downloader.html" class="circle-item">
+        <div class="circle-ring live">🦊<span class="dot-live"></span></div>
+        <div class="circle-name">Downloader</div>
+        <div class="circle-sub">Live</div>
+      </a>
+      <div class="circle-item placeholder">
+        <div class="circle-ring">🛒</div>
+        <div class="circle-name">Shop</div>
+        <div class="circle-sub">Bald</div>
+      </div>
+      <div class="circle-item placeholder">
+        <div class="circle-ring">🧪</div>
+        <div class="circle-name">Projekt</div>
+        <div class="circle-sub">In Arbeit</div>
+      </div>
+      <div class="circle-item placeholder">
+        <div class="circle-ring">🧪</div>
+        <div class="circle-name">Projekt</div>
+        <div class="circle-sub">In Arbeit</div>
+      </div>
+      <div class="circle-item placeholder">
+        <div class="circle-ring">✨</div>
+        <div class="circle-name">Mehr bald</div>
+        <div class="circle-sub">—</div>
+      </div>
+    </div>
+    <button class="explore-arrow" onclick="document.getElementById('circleScroll').scrollBy({left:200,behavior:'smooth'})">›</button>
+  </div>
+</section>
+
+<!-- Floating Support-Chat Button -->
+<a class="chat-fab" href="support.html" title="Support-Chat öffnen">💬</a>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="nav-logo"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></div>
+      <div class="footer-links">
+        <a href="downloader.html">Plüsch Downloader</a>
+        <a href="support.html">Support</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="https://github.com/TheStupidPlueschGuy">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">© 2026 TheStupidPlueschGuy · Plüsch Studios ist eine Eigenmarke, kein eingetragenes Unternehmen (sofern nicht anders im Impressum angegeben).</div>
+  </div>
+</footer>
+
+<script>
+if (window.matchMedia('(hover: hover)').matches) {
+  const ring = document.getElementById('cursorRing'), dot = document.getElementById('cursorDot');
+  let rx=0, ry=0, mx=0, my=0;
+  window.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  document.querySelectorAll('a, button, .circle-item').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('active'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('active'));
+  });
+}
+
+(function loopDemo(){
+  const typedEl=document.getElementById('demoTyped'), pillMp4=document.getElementById('pillMp4'), pillMp3=document.getElementById('pillMp3');
+  const btn=document.getElementById('demoBtn'), bar=document.getElementById('demoProgress'), status=document.getElementById('demoStatus');
+  const url='youtube.com/watch?v=r4nd0m';
+  function reset(){ typedEl.textContent=''; typedEl.classList.remove('demo-typed'); pillMp4.classList.remove('active'); pillMp3.classList.remove('active'); btn.classList.remove('pressed'); bar.style.transition='none'; bar.style.width='0%'; status.classList.remove('show'); }
+  function run(){
+    reset(); typedEl.classList.add('demo-typed'); let i=0;
+    const t=setInterval(()=>{ typedEl.textContent=url.slice(0,++i);
+      if(i>=url.length){ clearInterval(t); typedEl.classList.remove('demo-typed');
+        setTimeout(()=>pillMp4.classList.add('active'),300);
+        setTimeout(()=>{ btn.classList.add('pressed'); bar.style.transition='width 1.6s cubic-bezier(.3,.7,.3,1)'; requestAnimationFrame(()=>bar.style.width='100%'); },900);
+        setTimeout(()=>status.classList.add('show'),2500);
+        setTimeout(run,4400);
+      }
+    },65);
+  }
+  run();
+})();
+
+// Count-Up für den Stats-Streifen (startet, sobald sichtbar)
+(function statsCountUp(){
+  const counters = document.querySelectorAll('.stat-num');
+  const countUp = el => {
+    const target = parseInt(el.dataset.count, 10);
+    const dur = 1300; const start = performance.now();
+    const step = now => {
+      const p = Math.min((now-start)/dur, 1);
+      el.textContent = Math.floor(p*target).toLocaleString('de-DE') + (target===1800?'+':'');
+      if (p<1) requestAnimationFrame(step); else el.textContent = target.toLocaleString('de-DE') + (target===1800?'+':'');
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { countUp(en.target); io.unobserve(en.target); } });
+  }, {threshold:.6});
+  counters.forEach(c => io.observe(c));
+})();
+</script>
+
+</body>
+</html>

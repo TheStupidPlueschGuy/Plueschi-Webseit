@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anmelden — Plüsch Studios©</title>
+<meta name="description" content="Melde dich bei deinem Plüsch Studios Konto an oder erstelle ein neues.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#050508; --surface:#15152a; --border-soft:rgba(255,255,255,0.08);
+  --text:#eeeeff; --text-dim:rgba(255,255,255,0.56); --text-faint:rgba(255,255,255,0.30);
+  --c1:#7c3aed; --c2:#db2777; --c3:#22d3ee;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;cursor:none;}
+a{color:inherit;text-decoration:none;}
+.mono{font-family:'JetBrains Mono',monospace;}
+::selection{background:var(--c1);color:#fff;}
+:focus-visible{outline:2px solid var(--c3);outline-offset:3px;}
+::-webkit-scrollbar{height:8px;width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--c1),var(--c2));border-radius:99px;}
+html{scrollbar-color:var(--c1) var(--bg);}
+@media (hover:none){body{cursor:auto;}}
+
+#cursorRing{position:fixed;width:26px;height:26px;border:1.5px solid var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s,background .2s;mix-blend-mode:screen;}
+#cursorDot{position:fixed;width:5px;height:5px;background:var(--c3);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px 3px var(--c3);}
+#cursorRing.active{width:48px;height:48px;border-color:var(--c2);background:rgba(219,39,119,0.08);}
+@media (hover:none){#cursorRing,#cursorDot{display:none;}}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeInUp .7s cubic-bezier(.2,.7,.2,1) both;}
+
+.promo{background:linear-gradient(90deg,var(--c1),var(--c2));color:#fff;font-size:13px;font-weight:700;text-align:center;padding:10px 44px 10px 16px;position:relative;}
+.promo a{text-decoration:underline;margin-left:6px;}
+.promo-close{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:15px;cursor:pointer;opacity:.85;}
+.promo-close:hover{opacity:1;}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(5,5,8,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft);}
+.nav-inner{max-width:1280px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px;}
+.spark{display:inline-block;animation:wiggle 3.5s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:rotate(0) scale(1);}50%{transform:rotate(-12deg) scale(1.15);}}
+.nav-mid{display:flex;align-items:center;gap:30px;font-size:13.5px;font-weight:600;color:var(--text-dim);}
+.nav-mid > div{position:relative;}
+.nav-drop-btn{display:flex;align-items:center;gap:5px;cursor:pointer;padding:6px 0;}
+.nav-drop-btn:hover, .nav-mid a:hover{color:var(--text);}
+.chev{font-size:9px;transition:transform .2s;}
+.nav-drop-btn:hover .chev{transform:rotate(180deg);}
+.dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(6px);min-width:200px;background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:8px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.nav-mid > div:hover .dropdown{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-dim);}
+.dropdown a:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.nav-icons{display:flex;align-items:center;gap:18px;}
+.icon-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-dim);position:relative;transition:background .2s,color .2s;}
+.icon-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.cart-badge{position:absolute;top:-2px;right:-2px;background:var(--c2);color:#fff;font-size:9px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+@media (max-width:900px){.nav-mid{display:none;}}
+
+.page-hero{position:relative;background:radial-gradient(120% 100% at 15% 0%, rgba(124,58,237,0.16), transparent 55%), radial-gradient(100% 90% at 90% 100%, rgba(219,39,119,0.14), transparent 55%), #08080e;padding:64px 24px 80px;min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center;}
+
+.auth-card{width:100%;max-width:420px;background:rgba(21,21,42,.75);backdrop-filter:blur(20px);border:1px solid var(--border-soft);border-radius:22px;padding:36px;box-shadow:0 40px 100px rgba(124,58,237,.18);position:relative;overflow:hidden;}
+.auth-card::before{content:'';position:absolute;inset:0;border-radius:22px;padding:1px;background:conic-gradient(from var(--ang,0deg),var(--c1),var(--c3),var(--c2),var(--c1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);pointer-events:none;-webkit-mask-composite:xor;mask-composite:exclude;animation:rotate-border 5s linear infinite;opacity:.6;}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes rotate-border{to{--ang:360deg;}}
+
+.auth-title{font-size:22px;font-weight:900;margin:0 0 6px;text-align:center;}
+.auth-sub{font-size:13px;color:var(--text-dim);text-align:center;margin:0 0 26px;}
+
+.tabs{display:flex;gap:6px;background:rgba(0,0,0,.3);border-radius:10px;padding:4px;margin-bottom:22px;}
+.tab-btn{flex:1;text-align:center;padding:9px;border-radius:8px;font-size:12.5px;font-weight:700;color:var(--text-faint);cursor:pointer;transition:all .2s;background:none;border:none;font-family:inherit;}
+.tab-btn.active{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;}
+
+label{display:block;font-size:11.5px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px;}
+.input{width:100%;background:var(--bg);border:1px solid var(--border-soft);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;margin-bottom:16px;}
+.input:focus{outline:none;border-color:var(--c3);}
+.input.code{text-align:center;font-size:18px;letter-spacing:4px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+
+.btn{display:block;width:100%;padding:13px;border-radius:10px;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 8px 24px rgba(124,58,237,.35);transition:filter .2s;margin-bottom:12px;}
+.btn:hover{filter:brightness(1.08);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-ghost{background:transparent;border:1px solid var(--border-soft);color:var(--text-dim);box-shadow:none;}
+.btn-ghost:hover{border-color:var(--c3);filter:none;}
+
+.err-box{display:none;font-size:12px;font-weight:600;padding:10px 14px;border-radius:8px;background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.25);margin-bottom:16px;}
+.link-row{text-align:center;font-size:12.5px;color:var(--text-faint);margin-top:6px;}
+.link-row a{color:var(--c3);font-weight:700;}
+.divider{height:1px;background:var(--border-soft);margin:22px 0;}
+.step{display:none;}
+.step.active{display:block;}
+
+.site-footer{border-top:1px solid var(--border-soft);padding:36px 0 28px;background:#08080e;}
+.footer-inner{max-width:1280px;margin:0 auto;padding:0 32px;}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-bottom:24px;}
+.footer-divider{height:1px;background:var(--border-soft);margin-bottom:18px;}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--text-dim);}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
+
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.03;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
+</head>
+<body>
+
+<div id="cursorRing"></div>
+<div id="cursorDot"></div>
+<div class="grain"></div>
+
+<div class="promo mono" id="promoBar">
+  🎁 Unser Geschenk an dich: Alle Projekte kostenlos <a href="downloader.html">Jetzt entdecken</a>
+  <button class="promo-close" onclick="document.getElementById('promoBar').style.display='none'" aria-label="Schließen">✕</button>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></a></div>
+    <div class="nav-mid">
+      <div>
+        <div class="nav-drop-btn">Projekte <span class="chev">▾</span></div>
+        <div class="dropdown">
+          <a href="downloader.html">🦊 Plüsch Downloader</a>
+          <a href="index.html#explore">🛒 Plüsch Shop</a>
+          <a href="index.html#explore">🧪 In Entwicklung</a>
+        </div>
+      </div>
+      <a href="downloader.html">Downloader</a>
+      <a href="pricing.html">Abonnement</a>
+      <a href="support.html">Support</a>
+      <a href="impressum.html">Impressum</a>
+    </div>
+    <div class="nav-icons">
+      <a class="icon-btn" href="support.html" title="Support">🔍</a>
+      <a class="icon-btn" href="login.html" title="Anmelden" style="color:var(--c3);">👤</a>
+      <a class="icon-btn" href="index.html#explore" title="Shop (bald)">🛒<span class="cart-badge">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="auth-card fade-in">
+
+    <div class="step active" id="stepLogin">
+      <h1 class="auth-title">🦊 Willkommen zurück</h1>
+      <p class="auth-sub">Melde dich mit deinem Plüsch-Konto an</p>
+
+      <div class="tabs">
+        <button class="tab-btn active" id="tabPassBtn" onclick="switchLoginTab('pass')">🔑 Passwort</button>
+        <button class="tab-btn" id="tabOtpBtn" onclick="switchLoginTab('otp')">📧 Code per Mail</button>
+      </div>
+
+      <div id="loginPassSection">
+        <label>Benutzername</label>
+        <input class="input" type="text" id="loginUser" placeholder="dein_username" />
+        <label>Passwort</label>
+        <input class="input" type="password" id="loginPass" placeholder="••••••••" />
+        <div class="err-box" id="loginError"></div>
+        <button class="btn" id="loginBtn" onclick="doLogin()">Anmelden</button>
+      </div>
+
+      <div id="loginOtpSection" style="display:none;">
+        <div id="loginOtpStep1">
+          <label>E-Mail-Adresse</label>
+          <input class="input" type="email" id="loginOtpEmail" placeholder="deine@mail.com" />
+          <div class="err-box" id="loginOtpError"></div>
+          <button class="btn" id="loginOtpSendBtn" onclick="sendLoginOtp()">📧 Code senden</button>
+        </div>
+        <div id="loginOtpStep2" style="display:none;">
+          <label>6-stelliger Code</label>
+          <input class="input code" type="text" id="loginOtpCode" placeholder="000000" maxlength="6" />
+          <div class="err-box" id="loginOtpCodeError"></div>
+          <button class="btn" onclick="verifyLoginOtp()">Bestätigen & Anmelden</button>
+        </div>
+      </div>
+
+      <div id="login2faSection" style="display:none;">
+        <div style="text-align:center;padding:8px 0 16px;">
+          <div style="font-size:28px;margin-bottom:6px;">🔐</div>
+          <div style="font-size:13px;font-weight:700;">Zwei-Faktor-Code eingeben</div>
+          <div style="font-size:11.5px;color:var(--text-faint);margin-top:4px;">Aus deiner Authenticator-App, oder ein Backup-Code</div>
+        </div>
+        <input class="input code" type="text" id="login2faCode" placeholder="000000 oder XXXX-XXXX" />
+        <div class="err-box" id="login2faError"></div>
+        <button class="btn" id="login2faBtn" onclick="verifyLogin2FA()">✅ Bestätigen & Anmelden</button>
+      </div>
+
+      <div class="divider"></div>
+      <div class="link-row">Noch kein Konto? <a href="#" onclick="showStep('stepRegister');return false;">Jetzt erstellen</a></div>
+    </div>
+
+    <div class="step" id="stepRegister">
+      <h1 class="auth-title">✨ Konto erstellen</h1>
+      <p class="auth-sub">Ein Konto für alle Plüsch-Projekte</p>
+
+      <label>Benutzername</label>
+      <input class="input" type="text" id="regUser" placeholder="dein_username" />
+      <label>E-Mail (optional)</label>
+      <input class="input" type="email" id="regEmail" placeholder="deine@mail.com" />
+      <label>Passwort</label>
+      <input class="input" type="password" id="regPass" placeholder="mind. 6 Zeichen" />
+      <div class="err-box" id="regError"></div>
+      <button class="btn" id="regBtn" onclick="doRegister()">Konto erstellen</button>
+
+      <div class="divider"></div>
+      <div class="link-row">Schon ein Konto? <a href="#" onclick="showStep('stepLogin');return false;">Anmelden</a></div>
+    </div>
+
+    <div class="step" id="stepSuccess">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:44px;margin-bottom:14px;">🎉</div>
+        <h1 class="auth-title" id="successTitle">Willkommen!</h1>
+        <p class="auth-sub" id="successSub">Du bist jetzt angemeldet.</p>
+        <a class="btn" href="index.html" style="margin-top:10px;">Zur Startseite</a>
+        <button class="btn btn-ghost" onclick="doLogout()">Abmelden</button>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="nav-logo"><span class="spark">✨</span> Plüsch Studios© <span class="spark" style="animation-delay:1.2s;">✨</span></div>
+      <div class="footer-links">
+        <a href="downloader.html">Plüsch Downloader</a>
+        <a href="pricing.html">Abonnement</a>
+        <a href="support.html">Support</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="https://github.com/TheStupidPlueschGuy">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">© 2026 TheStupidPlueschGuy · Plüsch Studios ist eine Eigenmarke, kein eingetragenes Unternehmen (sofern nicht anders im Impressum angegeben).</div>
+  </div>
+</footer>
+
+<script>
+if (window.matchMedia('(hover: hover)').matches) {
+  const ring = document.getElementById('cursorRing'), dot = document.getElementById('cursorDot');
+  let rx=0, ry=0, mx=0, my=0;
+  window.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  document.querySelectorAll('a, button, .input').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('active'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('active'));
+  });
+}
+
+const MAILBOT_URL = "https://plueschis-mailbot.onrender.com";
+
+async function mailbotPost(path, body) {
+  try {
+    const res = await fetch(MAILBOT_URL + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body || {}),
+    });
+    return await res.json();
+  } catch (e) {
+    return { success: false, error: "Mailbot nicht erreichbar. Falls Render gerade erst hochfährt, kann das bis zu 30s dauern - kurz warten und nochmal versuchen." };
+  }
+}
+
+function setWebSession(username, token) {
+  if (username && token) {
+    localStorage.setItem("plueschi_web_user", username);
+    localStorage.setItem("plueschi_web_token", token);
+  } else {
+    localStorage.removeItem("plueschi_web_user");
+    localStorage.removeItem("plueschi_web_token");
+  }
+}
+function getWebUser(){ return localStorage.getItem("plueschi_web_user"); }
+function getWebToken(){ return localStorage.getItem("plueschi_web_token"); }
+
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function switchLoginTab(which) {
+  document.getElementById('tabPassBtn').classList.toggle('active', which === 'pass');
+  document.getElementById('tabOtpBtn').classList.toggle('active', which === 'otp');
+  document.getElementById('loginPassSection').style.display = which === 'pass' ? 'block' : 'none';
+  document.getElementById('loginOtpSection').style.display  = which === 'otp'  ? 'block' : 'none';
+}
+function showErr(id, msg) { const e = document.getElementById(id); e.textContent = '❌ ' + msg; e.style.display = 'block'; }
+function hideErr(id) { document.getElementById(id).style.display = 'none'; }
+
+let pending2faChallenge = null;
+
+function _completeLogin(username, token, displayName) {
+  setWebSession(username, token);
+  document.getElementById('successTitle').textContent = 'Willkommen, ' + (displayName || username) + '! 🦊';
+  document.getElementById('successSub').textContent = 'Du bist jetzt angemeldet.';
+  showStep('stepSuccess');
+}
+
+function _show2faStep() {
+  document.getElementById('loginPassSection').style.display = 'none';
+  document.getElementById('loginOtpSection').style.display = 'none';
+  document.querySelector('.tabs').style.display = 'none';
+  document.getElementById('login2faSection').style.display = 'block';
+  document.getElementById('login2faCode').value = '';
+  hideErr('login2faError');
+}
+
+async function doLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  hideErr('loginError');
+  if (!user || !pass) { showErr('loginError', 'Bitte alle Felder ausfüllen.'); return; }
+
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.textContent = 'Wird geprüft...';
+  const res = await mailbotPost('/api/login', { username: user, password: pass, device: 'Website - ' + navigator.userAgent.slice(0,40) });
+  btn.disabled = false; btn.textContent = 'Anmelden';
+
+  if (!res.success) { showErr('loginError', res.error || 'Login fehlgeschlagen'); return; }
+  if (res.requires_2fa) { pending2faChallenge = res.challenge; _show2faStep(); return; }
+  _completeLogin(res.user.username, res.token, res.user.display_name);
+}
+
+async function sendLoginOtp() {
+  const email = document.getElementById('loginOtpEmail').value.trim();
+  hideErr('loginOtpError');
+  if (!email) { showErr('loginOtpError', 'E-Mail eingeben!'); return; }
+
+  const btn = document.getElementById('loginOtpSendBtn');
+  btn.disabled = true; btn.textContent = 'Sende...';
+  const res = await mailbotPost('/api/send-otp', { email, reason: 'login' });
+  btn.disabled = false; btn.textContent = '📧 Code senden';
+
+  if (!res.success) { showErr('loginOtpError', res.error || 'Fehler'); return; }
+  document.getElementById('loginOtpStep1').style.display = 'none';
+  document.getElementById('loginOtpStep2').style.display = 'block';
+}
+
+async function verifyLoginOtp() {
+  const email = document.getElementById('loginOtpEmail').value.trim();
+  const code  = document.getElementById('loginOtpCode').value.trim();
+  hideErr('loginOtpCodeError');
+  if (!code || code.length < 6) { showErr('loginOtpCodeError', '6-stelligen Code eingeben!'); return; }
+
+  const verRes = await mailbotPost('/api/verify-otp', { email, code });
+  if (!verRes.success) { showErr('loginOtpCodeError', verRes.error); return; }
+
+  const loginRes = await mailbotPost('/api/login/otp-complete', { email, device: 'Website - ' + navigator.userAgent.slice(0,40) });
+  if (!loginRes.success) { showErr('loginOtpCodeError', loginRes.error || 'Fehler'); return; }
+
+  if (loginRes.requires_2fa) { pending2faChallenge = loginRes.challenge; _show2faStep(); return; }
+  _completeLogin(loginRes.user.username, loginRes.token, loginRes.user.display_name);
+}
+
+async function verifyLogin2FA() {
+  const code = document.getElementById('login2faCode').value.trim();
+  hideErr('login2faError');
+  if (!code) { showErr('login2faError', 'Code eingeben!'); return; }
+
+  const btn = document.getElementById('login2faBtn');
+  btn.disabled = true; btn.textContent = 'Wird geprüft...';
+  const res = await mailbotPost('/api/login/2fa-verify', { challenge: pending2faChallenge, code });
+  btn.disabled = false; btn.textContent = '✅ Bestätigen & Anmelden';
+
+  if (!res.success) { showErr('login2faError', res.error || 'Fehler'); return; }
+  pending2faChallenge = null;
+  _completeLogin(res.user.username, res.token, res.user.display_name);
+}
+
+async function doRegister() {
+  const user  = document.getElementById('regUser').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass  = document.getElementById('regPass').value;
+  hideErr('regError');
+  if (user.length < 3) { showErr('regError', 'Benutzername min. 3 Zeichen!'); return; }
+  if (pass.length < 6) { showErr('regError', 'Passwort min. 6 Zeichen!'); return; }
+
+  const btn = document.getElementById('regBtn');
+  btn.disabled = true; btn.textContent = 'Wird erstellt...';
+  const res = await mailbotPost('/api/register', { username: user, email, password: pass, device: 'Website - ' + navigator.userAgent.slice(0,40) });
+  btn.disabled = false; btn.textContent = 'Konto erstellen';
+
+  if (!res.success) { showErr('regError', res.error || 'Fehler'); return; }
+  _completeLogin(res.user.username, res.token, res.user.display_name);
+}
+
+function doLogout() {
+  setWebSession(null, null);
+  showStep('stepLogin');
+}
+
+(function checkExistingSession(){
+  const user = getWebUser(), token = getWebToken();
+  if (user && token) {
+    mailbotPost('/api/session/check', { username: user, token }).then(res => {
+      if (res.success) _completeLogin(user, token, res.user.display_name);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

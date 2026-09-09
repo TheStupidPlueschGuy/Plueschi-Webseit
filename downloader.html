@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plüsch Downloader — Videos & Musik von über 1.800 Seiten laden</title>
+<meta name="description" content="Kostenloser Windows-Downloader für YouTube, TikTok, Twitch und über 1.800 weitere Seiten. MP4 oder MP3, in einem Klick.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><a href="index.html" style="display:flex;align-items:center;gap:10px;"><span class="mark">🦊</span> Plüsch Downloader</a></div>
+    <div class="nav-links">
+      <a href="index.html">← Alle Projekte</a>
+      <a href="#features">Features</a>
+      <a href="sites.html">Unterstützte Seiten</a>
+      <a href="pricing.html">Preise</a>
+      <a href="whatsnew.html">Changelog</a>
+    </div>
+    <a class="nav-cta" href="login.html">Anmelden</a>
+  </div>
+</nav>
+
+<header class="container" style="display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:88px;">
+  <div>
+    <p class="eyebrow">🦊 Kostenlos · Windows · Kein Konto nötig zum Downloaden</p>
+    <h1 class="display">Ein Link rein.<br>Dein <span class="gradient-text">Video</span> raus.</h1>
+    <p class="lede">Plüsch Downloader lädt Videos und Musik von YouTube, TikTok, Twitch und über 1.800 weiteren Seiten — als MP4 oder MP3, in Originalqualität, ohne Wasserzeichen.</p>
+    <div style="display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;">
+      <a class="btn btn-primary" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest" id="downloadBtn">⬇️ Kostenlos herunterladen</a>
+      <a class="btn btn-ghost" href="https://github.com/TheStupidPlueschGuy/plueschi-releases">Auf GitHub ansehen</a>
+    </div>
+    <p style="font-size:12px;color:var(--text-faint);margin-top:14px;">Windows 10/11 · aktuelle Version wird automatisch geladen</p>
+  </div>
+
+  <!-- Nachbau der echten Download-Karte aus der App - das Produkt IST diese Interaktion -->
+  <div class="card" style="box-shadow:0 30px 80px rgba(124,58,237,0.15);">
+    <div style="font-size:12px;font-weight:700;color:var(--text-faint);letter-spacing:0.3px;margin-bottom:10px;">URL EINFÜGEN</div>
+    <div style="background:#0a0a0f;border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text-dim);margin-bottom:16px;">
+      https://youtube.com/watch?v=...
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:16px;">
+      <div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:linear-gradient(135deg,var(--c1),var(--c2));font-weight:700;font-size:13px;">🎬 MP4</div>
+      <div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-weight:700;font-size:13px;color:var(--text-dim);">🎵 MP3</div>
+    </div>
+    <div style="text-align:center;padding:13px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-weight:700;font-size:13px;color:var(--text-dim);">⬇️ Herunterladen</div>
+  </div>
+</header>
+
+<!-- Marquee: unterstützte Plattformen als Beweis der Reichweite -->
+<div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 0;overflow:hidden;background:var(--surface-2);">
+  <div class="marquee" style="display:flex;gap:48px;white-space:nowrap;font-weight:700;color:var(--text-dim);font-size:15px;width:max-content;animation:scroll 28s linear infinite;">
+    <span>▶️ YouTube</span><span>🎵 TikTok</span><span>🎮 Twitch</span><span>📸 Instagram</span><span>🐦 X / Twitter</span><span>+ 1.800 weitere Seiten</span>
+    <span>▶️ YouTube</span><span>🎵 TikTok</span><span>🎮 Twitch</span><span>📸 Instagram</span><span>🐦 X / Twitter</span><span>+ 1.800 weitere Seiten</span>
+  </div>
+</div>
+<style>@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}</style>
+
+<!-- Features - echte Copy aus der App-Tour wiederverwendet -->
+<section id="features" class="container" style="padding:96px 0;">
+  <p class="eyebrow">Was drin ist</p>
+  <h2 class="display" style="font-size:clamp(1.8rem,3.4vw,2.6rem);margin-bottom:56px;">Alles, was du zum Herunterladen brauchst — nichts, was du nicht brauchst.</h2>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+    <div style="background:var(--surface);padding:28px;">
+      <div style="font-size:26px;margin-bottom:12px;">🎬</div>
+      <h3 style="margin:0 0 8px;font-size:16px;">MP4 & MP3</h3>
+      <p style="margin:0;font-size:13px;color:var(--text-dim);">Qualität wählbar von 480p bis zur besten verfügbaren Auflösung. Für Musik: sauberes MP3 ohne Videoballast.</p>
+    </div>
+    <div style="background:var(--surface);padding:28px;">
+      <div style="font-size:26px;margin-bottom:12px;">📋</div>
+      <h3 style="margin:0 0 8px;font-size:16px;">Warteschlange</h3>
+      <p style="margin:0;font-size:13px;color:var(--text-dim);">Mehrere URLs auf einmal? Alle zur Warteschlange hinzufügen und nacheinander abarbeiten lassen.</p>
+    </div>
+    <div style="background:var(--surface);padding:28px;">
+      <div style="font-size:26px;margin-bottom:12px;">🍪</div>
+      <h3 style="margin:0 0 8px;font-size:16px;">Private Videos</h3>
+      <p style="margin:0;font-size:13px;color:var(--text-dim);">Cookie-Import für altersbeschränkte oder private Inhalte, direkt aus deinem Browser.</p>
+    </div>
+    <div style="background:var(--surface);padding:28px;">
+      <div style="font-size:26px;margin-bottom:12px;">🗂️</div>
+      <h3 style="margin:0 0 8px;font-size:16px;">Verlauf</h3>
+      <p style="margin:0;font-size:13px;color:var(--text-dim);">Jeder Download wird gespeichert — mit einem Klick erneut herunterladen, falls mal was schiefging.</p>
+    </div>
+    <div style="background:var(--surface);padding:28px;">
+      <div style="font-size:26px;margin-bottom:12px;">🎵</div>
+      <h3 style="margin:0 0 8px;font-size:16px;">Track Finder</h3>
+      <p style="margin:0;font-size:13px;color:var(--text-dim);">Liste von Songnamen eingeben, Plüschi findet automatisch die passenden YouTube-Music-Links.</p>
+    </div>
+    <div style="background:var(--surface);padding:28px;">
+      <div style="font-size:26px;margin-bottom:12px;">🔐</div>
+      <h3 style="margin:0 0 8px;font-size:16px;">Konto & 2FA</h3>
+      <p style="margin:0;font-size:13px;color:var(--text-dim);">Login auf bis zu 2 Geräten, optional mit Zwei-Faktor-Schutz über Authy oder Google Authenticator.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA-Band -->
+<section class="container" style="padding-bottom:96px;">
+  <div class="card" style="text-align:center;padding:56px 32px;background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(219,39,119,0.12));border-color:rgba(124,58,237,0.3);">
+    <h2 class="display" style="font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:14px;">Bereit zum ersten Download?</h2>
+    <p class="lede" style="margin:0 auto 28px;text-align:center;">Kostenlos, keine Registrierung nötig zum Loslegen.</p>
+    <a class="btn btn-primary" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest">⬇️ Jetzt herunterladen</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="sites.html">Unterstützte Seiten</a>
+      <a href="pricing.html">Preise</a>
+      <a href="whatsnew.html">Changelog</a>
+      <a href="support.html">Support</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="https://github.com/TheStupidPlueschGuy/plueschi-releases">GitHub</a>
+    </div>
+    <div class="footer-copy">© 2026 TheStupidPlueschGuy · Nicht verbunden mit YouTube, TikTok oder anderen genannten Plattformen.</div>
+  </div>
+</footer>
+
+</body>
+</html>
