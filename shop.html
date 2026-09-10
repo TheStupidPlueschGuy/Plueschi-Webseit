@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plüsch Downloader — Videos & Musik von über 1.800 Seiten laden</title>
-<meta name="description" content="Kostenloser Windows-Downloader für YouTube, TikTok, Twitch und über 1.800 weitere Seiten. MP4 oder MP3, in einem Klick.">
+<title>Shop — Plüsch Studios©</title>
+<meta name="description" content="Plüsch Shop — bald verfügbar.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -34,8 +34,6 @@ html{scrollbar-color:var(--c1) var(--bg);}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .fade-in{animation:fadeInUp .7s cubic-bezier(.2,.7,.2,1) both;}
 
-.container{max-width:1160px;margin:0 auto;padding:0 24px;}
-
 .promo{background:linear-gradient(90deg,var(--c1),var(--c2));color:#fff;font-size:13px;font-weight:700;text-align:center;padding:10px 44px 10px 16px;position:relative;}
 .promo a{text-decoration:underline;margin-left:6px;}
 .promo-close{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:15px;cursor:pointer;opacity:.85;}
@@ -63,55 +61,36 @@ html{scrollbar-color:var(--c1) var(--bg);}
 .cart-badge{position:absolute;top:-2px;right:-2px;background:var(--c2);color:#fff;font-size:9px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
 @media (max-width:900px){.nav-mid{display:none;}}
 
-.hero{position:relative;background:radial-gradient(120% 100% at 15% 0%, rgba(124,58,237,0.16), transparent 55%), radial-gradient(100% 90% at 90% 100%, rgba(219,39,119,0.14), transparent 55%), #08080e;overflow:hidden;}
-.hero-grid{max-width:1160px;margin:0 auto;padding:80px 24px 64px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;}
+.page-hero{position:relative;background:radial-gradient(120% 100% at 15% 0%, rgba(124,58,237,0.16), transparent 55%), radial-gradient(100% 90% at 90% 100%, rgba(219,39,119,0.14), transparent 55%), #08080e;padding:80px 24px;min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center;}
+.container{max-width:640px;margin:0 auto;text-align:center;}
+
+.shop-icon{font-size:56px;margin-bottom:22px;display:inline-block;animation:float 3.5s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
 .eyebrow{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--c3);margin:0 0 14px;}
-.display{font-size:clamp(2.2rem,4.6vw,3.6rem);font-weight:900;line-height:1.06;letter-spacing:-.03em;margin:0;}
+.page-title{font-size:clamp(2rem,4.2vw,3rem);font-weight:900;letter-spacing:-.03em;margin:0 0 16px;}
 .gradient-text{background:linear-gradient(100deg,var(--c1),var(--c2) 40%,var(--c3));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite;}
 @keyframes shine{to{background-position:200% center;}}
-.lede{font-size:15.5px;color:var(--text-dim);max-width:46ch;margin:18px 0 0;}
-.hero-cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:10px;font-weight:800;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;}
-.btn-solid{background:#fff;color:#08080d;}
-.btn-solid:hover{background:var(--c3);}
-.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-soft);}
-.btn-ghost:hover{border-color:var(--c3);background:rgba(34,211,238,.06);}
-.hero-note{font-size:11.5px;color:var(--text-faint);margin-top:14px;font-family:'JetBrains Mono',monospace;}
+.page-sub{font-size:15px;color:var(--text-dim);max-width:48ch;margin:0 auto 36px;}
 
-.showcase{position:relative;}
-.showcase-badge{position:absolute;top:-14px;right:24px;z-index:5;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;font-size:11px;font-weight:800;padding:7px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(124,58,237,.4);}
-.demo{background:rgba(21,21,42,.7);backdrop-filter:blur(20px);border:1px solid var(--border-soft);border-radius:22px;padding:28px;box-shadow:0 40px 100px rgba(124,58,237,.2);position:relative;overflow:hidden;}
-.demo::before{content:'';position:absolute;inset:0;border-radius:22px;padding:1px;background:conic-gradient(from var(--ang,0deg),var(--c1),var(--c3),var(--c2),var(--c1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);pointer-events:none;-webkit-mask-composite:xor;mask-composite:exclude;animation:rotate-border 4s linear infinite;opacity:.7;}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:40px;}
+.preview-card{background:rgba(21,21,42,.6);border:1px solid var(--border-soft);border-radius:16px;padding:24px 16px;opacity:.5;filter:grayscale(1);}
+.preview-card .icn{font-size:28px;margin-bottom:10px;}
+.preview-card .name{font-size:12.5px;font-weight:700;color:var(--text-dim);}
+.preview-card .price{font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;margin-top:4px;}
+
+.notify-card{background:rgba(21,21,42,.75);backdrop-filter:blur(20px);border:1px solid var(--border-soft);border-radius:20px;padding:28px;position:relative;overflow:hidden;}
+.notify-card::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1px;background:conic-gradient(from var(--ang,0deg),var(--c1),var(--c3),var(--c2),var(--c1));pointer-events:none;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rotate-border 5s linear infinite;opacity:.6;}
 @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg;}
 @keyframes rotate-border{to{--ang:360deg;}}
-.demo-dots{display:flex;gap:6px;margin-bottom:16px;}
-.demo-dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);}
-.demo-input{background:var(--bg);border:1px solid var(--border-soft);border-radius:10px;padding:13px 15px;font-size:13px;color:var(--c3);font-family:'JetBrains Mono',monospace;margin-bottom:16px;}
-.demo-row{display:flex;gap:10px;margin-bottom:16px;}
-.demo-pill{flex:1;text-align:center;padding:10px;border-radius:9px;font-weight:700;font-size:12.5px;}
-.demo-pill.on{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;}
-.demo-pill.off{background:rgba(255,255,255,.05);color:var(--text-faint);border:1px solid var(--border-soft);}
-.demo-btn{text-align:center;padding:11px;border-radius:9px;font-weight:800;font-size:12px;text-transform:uppercase;background:rgba(255,255,255,.05);color:var(--text-faint);border:1px solid var(--border-soft);}
-
-@media (max-width:900px){.hero-grid{grid-template-columns:1fr;padding:64px 24px;}}
-
-.marquee-wrap{border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:22px 0;overflow:hidden;background:#08080e;}
-.marquee{display:flex;gap:48px;white-space:nowrap;font-weight:700;color:var(--text-dim);font-size:14.5px;width:max-content;animation:scroll 26s linear infinite;}
-@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-
-.features{padding:96px 0;}
-.features h2{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:900;letter-spacing:-.02em;margin:0 0 48px;max-width:20ch;}
-.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);border-radius:20px;overflow:hidden;}
-.feat-card{background:var(--surface);padding:28px;transition:background .2s;}
-.feat-card:hover{background:#1a1a35;}
-.feat-icon{font-size:26px;margin-bottom:12px;}
-.feat-card h3{margin:0 0 8px;font-size:15.5px;font-weight:800;}
-.feat-card p{margin:0;font-size:13px;color:var(--text-dim);line-height:1.6;}
-
-.cta-band{padding-bottom:100px;}
-.cta-card{text-align:center;padding:56px 32px;border-radius:22px;background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(219,39,119,.12));border:1px solid rgba(124,58,237,.3);}
-.cta-card h2{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:900;margin:0 0 12px;}
-.cta-card p{font-size:14px;color:var(--text-dim);margin:0 0 26px;}
+.notify-title{font-size:15px;font-weight:800;margin-bottom:6px;}
+.notify-sub{font-size:12.5px;color:var(--text-faint);margin-bottom:18px;}
+.notify-row{display:flex;gap:10px;}
+.input{flex:1;background:var(--bg);border:1px solid var(--border-soft);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--text);font-family:inherit;}
+.input:focus{outline:none;border-color:var(--c3);}
+.btn{padding:12px 22px;border-radius:10px;font-weight:800;font-size:12px;letter-spacing:.03em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 8px 24px rgba(124,58,237,.35);white-space:nowrap;}
+.btn:hover{filter:brightness(1.08);}
+.ok-msg{display:none;font-size:12.5px;color:#4ade80;margin-top:12px;font-weight:600;}
 
 .site-footer{border-top:1px solid var(--border-soft);padding:36px 0 28px;background:#08080e;}
 .footer-inner{max-width:1280px;margin:0 auto;padding:0 32px;}
@@ -131,7 +110,7 @@ html{scrollbar-color:var(--c1) var(--bg);}
 <div class="grain"></div>
 
 <div class="promo mono" id="promoBar">
-  🎁 Unser Geschenk an dich: Alle Projekte kostenlos <a href="index.html#explore">Jetzt entdecken</a>
+  🎁 Unser Geschenk an dich: Alle Projekte kostenlos <a href="downloader.html">Jetzt entdecken</a>
   <button class="promo-close" onclick="document.getElementById('promoBar').style.display='none'" aria-label="Schließen">✕</button>
 </div>
 
@@ -147,7 +126,7 @@ html{scrollbar-color:var(--c1) var(--bg);}
           <a href="index.html#explore">🧪 In Entwicklung</a>
         </div>
       </div>
-      <a href="downloader.html" class="active">Downloader</a>
+      <a href="downloader.html">Downloader</a>
       <a href="pricing.html">Abonnement</a>
       <a href="support.html">Support</a>
       <a href="impressum.html">Impressum</a>
@@ -155,65 +134,36 @@ html{scrollbar-color:var(--c1) var(--bg);}
     <div class="nav-icons">
       <a class="icon-btn" href="support.html" title="Support">🔍</a>
       <a class="icon-btn" href="account.html" title="Mein Konto">👤</a>
-      <a class="icon-btn" href="shop.html" title="Shop (bald)">🛒<span class="cart-badge">0</span></a>
+      <a class="icon-btn" href="shop.html" title="Shop (bald)" style="color:var(--c3);">🛒<span class="cart-badge">0</span></a>
     </div>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="hero-grid">
-    <div class="fade-in">
-      <p class="eyebrow">🦊 Kostenlos · Windows · Kein Konto nötig zum Downloaden</p>
-      <h1 class="display">Ein Link rein.<br>Dein <span class="gradient-text">Video</span> raus.</h1>
-      <p class="lede">Plüsch Downloader lädt Videos und Musik von YouTube, TikTok, Twitch und über 1.800 weiteren Seiten — als MP4 oder MP3, in Originalqualität, ohne Wasserzeichen.</p>
-      <div class="hero-cta">
-        <a class="btn btn-solid" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest">⬇️ Kostenlos herunterladen</a>
-        <a class="btn btn-ghost" href="https://github.com/TheStupidPlueschGuy/plueschi-releases">Auf GitHub ansehen</a>
-      </div>
-      <p class="hero-note">WINDOWS 10/11 · AKTUELLE VERSION WIRD AUTOMATISCH GELADEN</p>
+<header class="page-hero">
+  <div class="container">
+    <div class="shop-icon fade-in">🛍️</div>
+    <p class="eyebrow fade-in" style="animation-delay:.05s;">Plüsch Shop</p>
+    <h1 class="page-title fade-in" style="animation-delay:.1s;">Bald verfügbar <span class="gradient-text">✨</span></h1>
+    <p class="page-sub fade-in" style="animation-delay:.15s;">Merch, Extras und mehr rund um Plüsch Studios — wir arbeiten dran. Trag dich ein und wir schreiben dir, sobald es losgeht.</p>
+
+    <div class="preview-grid fade-in" style="animation-delay:.2s;">
+      <div class="preview-card"><div class="icn">👕</div><div class="name">T-Shirts</div><div class="price">Bald</div></div>
+      <div class="preview-card"><div class="icn">🧢</div><div class="name">Caps</div><div class="price">Bald</div></div>
+      <div class="preview-card"><div class="icn">🧸</div><div class="name">Plüschtiere</div><div class="price">Bald</div></div>
+      <div class="preview-card"><div class="icn">🎨</div><div class="name">Sticker</div><div class="price">Bald</div></div>
     </div>
 
-    <div class="showcase fade-in" style="animation-delay:.15s;">
-      <div class="showcase-badge">🦊 FLAGGSCHIFF</div>
-      <div class="demo">
-        <div class="demo-dots"><span></span><span></span><span></span></div>
-        <div class="demo-input">youtube.com/watch?v=...</div>
-        <div class="demo-row">
-          <div class="demo-pill on">🎬 MP4</div>
-          <div class="demo-pill off">🎵 MP3</div>
-        </div>
-        <div class="demo-btn">⬇️ Herunterladen</div>
+    <div class="notify-card fade-in" style="animation-delay:.25s;">
+      <div class="notify-title">🔔 Als Erste(r) benachrichtigt werden</div>
+      <div class="notify-sub">Keine Sorge, kein Spam — nur eine Mail, wenn der Shop live geht.</div>
+      <div class="notify-row">
+        <input class="input" type="email" id="notifyEmail" placeholder="deine@mail.com" />
+        <button class="btn" onclick="notifyMe()">Benachrichtigen</button>
       </div>
+      <div class="ok-msg" id="notifyOk">✅ Gespeichert — wir melden uns!</div>
     </div>
   </div>
 </header>
-
-<div class="marquee-wrap">
-  <div class="marquee">
-    <span>▶️ YouTube</span><span>🎵 TikTok</span><span>🎮 Twitch</span><span>📸 Instagram</span><span>🐦 X / Twitter</span><span>+ 1.800 weitere Seiten</span>
-    <span>▶️ YouTube</span><span>🎵 TikTok</span><span>🎮 Twitch</span><span>📸 Instagram</span><span>🐦 X / Twitter</span><span>+ 1.800 weitere Seiten</span>
-  </div>
-</div>
-
-<section class="features container">
-  <h2>Alles, was du zum Herunterladen brauchst — nichts, was du nicht brauchst.</h2>
-  <div class="feat-grid">
-    <div class="feat-card"><div class="feat-icon">🎬</div><h3>MP4 & MP3</h3><p>Qualität wählbar von 480p bis zur besten verfügbaren Auflösung. Für Musik: sauberes MP3 ohne Videoballast.</p></div>
-    <div class="feat-card"><div class="feat-icon">📋</div><h3>Warteschlange</h3><p>Mehrere URLs auf einmal? Alle zur Warteschlange hinzufügen und nacheinander abarbeiten lassen.</p></div>
-    <div class="feat-card"><div class="feat-icon">🍪</div><h3>Private Videos</h3><p>Cookie-Import für altersbeschränkte oder private Inhalte, direkt aus deinem Browser.</p></div>
-    <div class="feat-card"><div class="feat-icon">🗂️</div><h3>Verlauf</h3><p>Jeder Download wird gespeichert — mit einem Klick erneut herunterladen, falls mal was schiefging.</p></div>
-    <div class="feat-card"><div class="feat-icon">🎵</div><h3>Track Finder</h3><p>Liste von Songnamen eingeben, Plüschi findet automatisch die passenden YouTube-Music-Links.</p></div>
-    <div class="feat-card"><div class="feat-icon">🔐</div><h3>Konto & 2FA</h3><p>Login auf bis zu 2 Geräten, optional mit Zwei-Faktor-Schutz über Authy oder Google Authenticator.</p></div>
-  </div>
-</section>
-
-<section class="cta-band container">
-  <div class="cta-card">
-    <h2>Bereit zum ersten Download?</h2>
-    <p>Kostenlos, keine Registrierung nötig zum Loslegen.</p>
-    <a class="btn btn-solid" href="https://github.com/TheStupidPlueschGuy/plueschi-releases/releases/latest">⬇️ Jetzt herunterladen</a>
-  </div>
-</section>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -238,10 +188,20 @@ if (window.matchMedia('(hover: hover)').matches) {
   let rx=0, ry=0, mx=0, my=0;
   window.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
   (function loop(){ rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
-  document.querySelectorAll('a, button').forEach(el => {
+  document.querySelectorAll('a, button, .input').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('active'));
     el.addEventListener('mouseleave', () => ring.classList.remove('active'));
   });
+}
+
+// HINWEIS: Speichert aktuell nur lokal im Browser (kein Backend-Endpunkt
+// dafür vorhanden). Sobald der Shop näher rückt, müsste das an einen echten
+// Mailbot-Endpunkt geschickt werden, der die Adressen sammelt.
+function notifyMe() {
+  const email = document.getElementById('notifyEmail').value.trim();
+  if (!email || !email.includes('@')) return;
+  document.getElementById('notifyOk').style.display = 'block';
+  document.getElementById('notifyEmail').value = '';
 }
 </script>
 
