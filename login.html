@@ -249,7 +249,7 @@ if (window.matchMedia('(hover: hover)').matches) {
   });
 }
 
-const MAILBOT_URL = "https://plueschis-mailbot.onrender.com";
+const MAILBOT_URL = "https://thestupidplueschguy.pythonanywhere.com";
 
 async function mailbotPost(path, body) {
   try {
@@ -315,7 +315,7 @@ async function doLogin() {
 
   const btn = document.getElementById('loginBtn');
   btn.disabled = true; btn.textContent = 'Wird geprüft...';
-  const res = await mailbotPost('/api/login', { username: user, password: pass, device: 'Website - ' + navigator.userAgent.slice(0,40) });
+  const res = await mailbotPost('/api/login', { username: user, password: pass, device: 'Website - ' + navigator.userAgent.slice(0,40), client: 'web' });
   btn.disabled = false; btn.textContent = 'Anmelden';
 
   if (!res.success) { showErr('loginError', res.error || 'Login fehlgeschlagen'); return; }
@@ -347,7 +347,7 @@ async function verifyLoginOtp() {
   const verRes = await mailbotPost('/api/verify-otp', { email, code });
   if (!verRes.success) { showErr('loginOtpCodeError', verRes.error); return; }
 
-  const loginRes = await mailbotPost('/api/login/otp-complete', { email, device: 'Website - ' + navigator.userAgent.slice(0,40) });
+  const loginRes = await mailbotPost('/api/login/otp-complete', { email, device: 'Website - ' + navigator.userAgent.slice(0,40), client: 'web' });
   if (!loginRes.success) { showErr('loginOtpCodeError', loginRes.error || 'Fehler'); return; }
 
   if (loginRes.requires_2fa) { pending2faChallenge = loginRes.challenge; _show2faStep(); return; }
@@ -379,7 +379,7 @@ async function doRegister() {
 
   const btn = document.getElementById('regBtn');
   btn.disabled = true; btn.textContent = 'Wird erstellt...';
-  const res = await mailbotPost('/api/register', { username: user, email, password: pass, device: 'Website - ' + navigator.userAgent.slice(0,40) });
+  const res = await mailbotPost('/api/register', { username: user, email, password: pass, device: 'Website - ' + navigator.userAgent.slice(0,40), client: 'web' });
   btn.disabled = false; btn.textContent = 'Konto erstellen';
 
   if (!res.success) { showErr('regError', res.error || 'Fehler'); return; }
